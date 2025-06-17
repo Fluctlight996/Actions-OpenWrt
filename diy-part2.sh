@@ -18,3 +18,10 @@
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+fix_rust_compile_error() {Add commentMore actions
+    if [ -f "$BUILD_DIR/feeds/packages/lang/rust/Makefile" ]; then
+        sed -i 's/download-ci-llvm=true/download-ci-llvm=false/g' "$BUILD_DIR/feeds/packages/lang/rust/Makefile"
+    fi
+}
+# 执行修复
+fix_rust_compile_error
