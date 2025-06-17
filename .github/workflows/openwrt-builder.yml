@@ -101,13 +101,6 @@ jobs:
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
 
-      # 新增修复步骤 HERE
-      - name: Fix Rust CI config
-        run: |
-          cd openwrt
-          sed -i 's/download-ci-llvm = true/download-ci-llvm = "if-unchanged"/' feeds/packages/lang/rust/Makefile
-          echo 'CONFIG_RUST_LLVM_DOWNLOAD_CI="if-unchanged"' >> .config
-
       - name: Compile the firmware
         id: compile
         run: |
