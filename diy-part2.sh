@@ -18,9 +18,13 @@
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
-fix_rust_compile_error() {Add commentMore actions
-    if [ -f "$BUILD_DIR/feeds/packages/lang/rust/Makefile" ]; then
-        sed -i 's/download-ci-llvm=true/download-ci-llvm=false/g' "$BUILD_DIR/feeds/packages/lang/rust/Makefile"
+fix_rust_compile_error() {
+    echo "Applying Rust compile error fix..."
+    if [ -f "feeds/packages/lang/rust/Makefile" ]; then
+        sed -i 's/download-ci-llvm=true/download-ci-llvm=false/g' "feeds/packages/lang/rust/Makefile"
+        echo "Rust Makefile modified: disabled CI LLVM download"
+    else
+        echo "Warning: Rust Makefile not found at feeds/packages/lang/rust/Makefile"
     fi
 }
 # 执行修复
