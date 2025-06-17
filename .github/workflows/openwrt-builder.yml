@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-        
+
       - name: 释放磁盘空间
         uses: jlumbroso/free-disk-space@main
         with:
@@ -48,8 +48,8 @@ jobs:
           dotnet: true
           haskell: true
           large-packages: true
-          swap-storage: true      
-          
+          swap-storage: true
+
       - name: Initialization environment
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -100,6 +100,13 @@ jobs:
           make download -j8
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
+
+      # 新增修复步骤 HERE
+      - name: Fix Rust CI config
+        run: |
+          cd openwrt
+          sed -i 's/download-ci-llvm = true/download-ci-llvm = "if-unchanged"/' feeds/packages/lang/rust/Makefile
+          echo 'CONFIG_RUST_LLVM_DOWNLOAD_CI="if-unchanged"' >> .config
 
       - name: Compile the firmware
         id: compile
